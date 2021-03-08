@@ -20,6 +20,25 @@ class Linvoice {
         return $invoiceList;
     }
 	
+	// Đơn hàng theo đơn
+	public function invoice_list_1() {
+
+        $CI = & get_instance();
+        $CI->load->model('Invoices');
+        $CI->load->model('Web_settings');
+        $CI->load->library('occational');
+        $company_info = $CI->Invoices->retrieve_company();
+        $currency_details = $CI->Web_settings->retrieve_setting_editdata();
+        $data = array(
+            'title'         => display('manage_invoice_1'),
+            'total_invoice' => $CI->Invoices->count_invoice(),
+            'currency'      => $currency_details[0]['currency'],
+            'company_info'  => $company_info,
+        );
+        $invoiceList = $CI->parser->parse('invoice/invoice_1', $data, true);
+        return $invoiceList;
+    }
+
 	//inovie_manage search by invoice id
 public function invoice_list_invoice_no($invoice_no)
 	{
@@ -107,8 +126,8 @@ public function invoice_list_invoice_no($invoice_no)
                 $num_column = count($tablecolumn)-4;
 		$data = array(
 				'title' 		=> display('add_new_pos_invoice'),
-				'customer_name' => $customer_details[0]['customer_name'],
-				'customer_id' 	=> $customer_details[0]['customer_id'],
+				'customer_name' => $customer_details[0]['customer_name'] ?? 'default value',
+				'customer_id' 	=> $customer_details[0]['customer_id'] ?? 'default value',
 				'discount_type' => $currency_details[0]['discount_type'],
 				'taxes'         => $taxfield,
 				'bank_list'     => $bank_list,
@@ -160,8 +179,9 @@ public function invoice_list_invoice_no($invoice_no)
                 ->result_array();
 		$data = array(
 				'title'         => display('add_new_invoice'),
-				'customer_name' => $customer_details[0]['customer_name'],
-				'customer_id' 	=> $customer_details[0]['customer_id'],
+				// --------Thịnh thêm ?? 'default value' ở 2 dòng dưới
+				'customer_name' => $customer_details[0]['customer_name']?? 'default value', 
+				'customer_id' 	=> $customer_details[0]['customer_id']?? 'default value',
 				'discount_type' => $currency_details[0]['discount_type'],
 				'taxes'         => $taxfield,
 				'bank_list'     => $bank_list

@@ -479,4 +479,4 @@ echo html_escape($text);
     </div>
     </section>
 </div>
-
+ 

@@ -162,6 +162,14 @@
                             echo " ";
                         }?>"><a href="<?php echo base_url('Cinvoice/manage_invoice')?>"><?php echo display('manage_invoice') ?></a></li>
                         <?php } ?>
+                        <!------- Thịnh thêm để chỉnh sửa -------->
+                        <?php if($this->permission1->method('manage_invoice_1','read')->access() || $this->permission1->method('manage_invoice_1','update')->access() || $this->permission1->method('manage_invoice_1','delete')->access()) { ?>
+                        <li class="treeview <?php if ($this->uri->segment('2') == ("manage_invoice_1")){
+                        echo "active";
+                        } else {
+                            echo " ";
+                        }?>"><a href="<?php echo base_url('Cinvoice/manage_invoice_1')?>"><?php echo display('manage_invoice_1') ?></a></li>
+                        <?php } ?>
                     </ul>
                 </li>
             <?php } ?>
@@ -316,7 +324,7 @@
                     <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
-                <!-- Menu con của nhập kho -->
+                <!-- Menu con của dự trù -->
                 <ul class="treeview-menu">
                 <!-- sửa premission -->
                     <?php if($this->permission1->method('add_customer','create')->access()){ ?>
@@ -327,7 +335,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Cbackup') ?>">
+                    <a href="<?php echo base_url('Cbackup/nha_cung_cap') ?>">
                     <?php echo('Nhà cung cấp') ?>
                     </a></li>
                     <?php } ?>
@@ -361,7 +369,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Cstockout') ?>">
+                    <a href="<?php echo base_url('Cstockout/dieu_chuyen_kho') ?>">
                     <?php echo('Điều chuyển kho') ?>
                     </a></li>
                     <?php } ?>
@@ -374,7 +382,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Cstockout') ?>">
+                    <a href="<?php echo base_url('Cstockout/dieu_chinh_ton') ?>">
                     <?php echo('Điều chỉnh tồn') ?>
                     </a></li>
                     <?php } ?>
@@ -387,7 +395,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Cstockout') ?>">
+                    <a href="<?php echo base_url('Cstockout/xuat_huy_hang') ?>">
                     <?php echo('Xuất huỷ hàng') ?>
                     </a></li>
                     <?php } ?>
@@ -400,7 +408,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Cstockout') ?>">
+                    <a href="<?php echo base_url('Cstockout/tra_nha_cung_cap') ?>">
                     <?php echo('Trả nhà cung cấp') ?>
                     </a></li>
                     <?php } ?>
@@ -413,7 +421,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Cstockout') ?>">
+                    <a href="<?php echo base_url('Cstockout/huy_don_thuoc') ?>">
                     <?php echo('Huỷ đơn thuốc') ?>
                     </a></li>
                     <?php } ?>
@@ -426,7 +434,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Cstockout') ?>">
+                    <a href="<?php echo base_url('Cstockout/xuat_khac') ?>">
                     <?php echo('Xuất khác') ?>
                     </a></li>
                     <?php } ?>
@@ -442,7 +450,7 @@
             { ?>
             <!-- sửa tên Controller tương ứng -->
             <li class="treeview <?php if ($this->uri->segment('1') == ("Cinventory")) { echo "active";}else{ echo " ";}?> ">
-                <a href="#">
+                    <a href="<?php echo base_url('Cinventory/kiem_ke') ?>"> 
                     <!-- tên của menu -->
                     <i class="fa fa-money" aria-hidden="true"></i><span><?php echo('Kiểm kê') ?></span>
                 </a>
@@ -1089,7 +1097,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Ccustomer') ?>">
+                    <a href="<?php echo base_url('Ccustomer/danh_sach_khach_hang') ?>">
                     <?php echo('Khách hàng') ?>
                     </a></li>
                     <?php } ?>
@@ -1102,7 +1110,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Ccustomer') ?>">
+                    <a href="<?php echo base_url('Ccustomer/bac_si') ?>">
                     <?php echo('Bác sĩ') ?>
                     </a></li>
                     <?php } ?>
@@ -1115,7 +1123,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Ccustomer') ?>">
+                    <a href="<?php echo base_url('Ccustomer/lich_hen') ?>">
                     <?php echo('Lịch hẹn') ?>
                     </a></li>
                     <?php } ?>
@@ -1128,7 +1136,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Ccustomer') ?>">
+                    <a href="<?php echo base_url('Ccustomer/the_phat_hanh') ?>">
                     <?php echo('Thẻ phát hành') ?>
                     </a></li>
                     <?php } ?>
@@ -1141,7 +1149,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Ccustomer') ?>">
+                    <a href="<?php echo base_url('Ccustomer/doi_tuong_khach_hang') ?>">
                     <?php echo('Đối tượng khách hàng') ?>
                     </a></li>
                     <?php } ?>
@@ -1154,7 +1162,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Ccustomer') ?>">
+                    <a href="<?php echo base_url('Ccustomer/feedback') ?>">
                     <?php echo('Feedback') ?>
                     </a></li>
                     <?php } ?>
@@ -1167,7 +1175,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Ccustomer') ?>">
+                    <a href="<?php echo base_url('Ccustomer/quan_ly_tk_tho') ?>">
                     <?php echo('Quản lý TK thợ') ?>
                     </a></li>
                     <?php } ?>
@@ -1180,7 +1188,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Ccustomer') ?>">
+                    <a href="<?php echo base_url('Ccustomer/quan_ly_tk_khach_hang') ?>">
                     <?php echo('Quản lý TK khách hàng') ?>
                     </a></li>
                     <?php } ?>
@@ -1193,7 +1201,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Ccustomer') ?>">
+                    <a href="<?php echo base_url('Ccustomer/ds_hh_chiet_khau_theo_doi_tuong') ?>">
                     <?php echo('DS hh chiết khấu theo đối tượng') ?>
                     </a></li>
                     <?php } ?>
@@ -1206,7 +1214,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Ccustomer') ?>">
+                    <a href="<?php echo base_url('Ccustomer/quan_ly_tk_dai_ly') ?>">
                     <?php echo('Quản lý TK đại lý') ?>
                     </a></li>
                     <?php } ?>
@@ -1229,7 +1237,7 @@
                     <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
-                <!-- Menu con của -->
+                <!-- Menu con của nhập kho -->
                 <ul class="treeview-menu">
                 <!-- sửa premission -->
                     <?php if($this->permission1->method('add_customer','create')->access()){ ?>
@@ -1240,7 +1248,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Chumanresource/danh_sach_nhan_vien') ?>">
+                    <a href="<?php echo base_url('Chumanresource') ?>">
                     <?php echo('Danh sách nhân viên') ?>
                     </a></li>
                     <?php } ?>
@@ -1253,7 +1261,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Chumanresource/cham_cong') ?>">
+                    <a href="<?php echo base_url('Chumanresource') ?>">
                     <?php echo('Chấm công') ?>
                     </a></li>
                     <?php } ?>
@@ -1266,7 +1274,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Chumanresource/bang_tong_hop_cong') ?>">
+                    <a href="<?php echo base_url('Chumanresource') ?>">
                     <?php echo('Bảng tổng hợp công') ?>
                     </a></li>
                     <?php } ?>
@@ -1279,7 +1287,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Chumanresource/tinh_luong') ?>">
+                    <a href="<?php echo base_url('Chumanresource') ?>">
                     <?php echo('Tính lương') ?>
                     </a></li>
                     <?php } ?>
@@ -1292,7 +1300,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Chumanresource/danh_muc_chuc_vu') ?>">
+                    <a href="<?php echo base_url('Chumanresource') ?>">
                     <?php echo('Danh mục chức vụ') ?>
                     </a></li>
                     <?php } ?>
@@ -1886,7 +1894,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Csystem/phan_quyen') ?>">
+                    <a href="<?php echo base_url('Csystem') ?>">
                     <?php echo('Phân quyền') ?>
                     </a></li>
                     <?php } ?>
@@ -1899,7 +1907,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Csystem/phan_quyen_nhanh') ?>">
+                    <a href="<?php echo base_url('Csystem') ?>">
                     <?php echo('Phân quyền nhanh') ?>
                     </a></li>
                     <?php } ?>
@@ -1912,7 +1920,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Csystem/cau_hinh_he_thong') ?>">
+                    <a href="<?php echo base_url('Csystem') ?>">
                     <?php echo('Cấu hình hệ thống') ?>
                     </a></li>
                     <?php } ?>
@@ -1925,7 +1933,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Csystem/quy_uoc_so') ?>">
+                    <a href="<?php echo base_url('Csystem') ?>">
                     <?php echo('Quy ước số') ?>
                     </a></li>
                     <?php } ?>
@@ -1938,7 +1946,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Csystem/nhap_khau_duoc') ?>">
+                    <a href="<?php echo base_url('Csystem') ?>">
                     <?php echo('Nhập khẩu dược') ?>
                     </a></li>
                     <?php } ?>
@@ -1951,7 +1959,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Csystem/thiet_lap_tin_nhan') ?>">
+                    <a href="<?php echo base_url('Csystem') ?>">
                     <?php echo('Thiết lập tin nhắn') ?>
                     </a></li>
                     <?php } ?>
@@ -1964,7 +1972,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Csystem/import_ton_duoc') ?>">
+                    <a href="<?php echo base_url('Csystem') ?>">
                     <?php echo('Nhập tồn dược') ?>
                     </a></li>
                     <?php } ?>
@@ -1977,7 +1985,7 @@
                     }
                     ?>">
                     <!-- sửa tên Controller tương ứng -->
-                    <a href="<?php echo base_url('Csystem/cau_hinh_vnpay') ?>">
+                    <a href="<?php echo base_url('Csystem') ?>">
                     <?php echo('Cấu hình VNPay') ?>
                     </a></li>
                     <?php } ?>

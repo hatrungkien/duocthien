@@ -6,6 +6,39 @@ if (!defined('BASEPATH'))
 class Lcustomer {
 
     //Retrieve  Customer List	
+    public function danh_sach_khach_hang() {
+        $CI =& get_instance();
+        $CI->load->model('Customers');
+        $CI->load->model('Web_settings');
+        $data = array(
+            
+        );
+        $rt = $CI->parser->parse('customer/danh_sach_khach_hang',$data,true);
+        return $rt;
+    }
+
+    public function bac_si() {
+        $CI =& get_instance();
+        $CI->load->model('Customers');
+        $CI->load->model('Web_settings');
+        $data = array(
+            
+        );
+        $rt = $CI->parser->parse('customer/bac_si',$data,true);
+        return $rt;
+    }
+
+    public function lich_hen() {
+        $CI =& get_instance();
+        $CI->load->model('Customers');
+        $CI->load->model('Web_settings');
+        $data = array(
+            
+        );
+        $rt = $CI->parser->parse('customer/lich_hen',$data,true);
+        return $rt;
+    }
+
     public function customer_list() {
         $CI =& get_instance();
         $CI->load->model('Customers');

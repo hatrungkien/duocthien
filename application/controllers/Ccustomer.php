@@ -24,6 +24,24 @@ class Ccustomer extends CI_Controller {
         $this->template->full_admin_html_view($content);
     }
 
+    public function danh_sach_khach_hang() {
+        $content = $this->lcustomer->danh_sach_khach_hang();
+        //Here ,0 means array position 0 will be active class
+        $this->template->full_admin_html_view($content);
+    }
+
+    public function bac_si() {
+        $content = $this->lcustomer->bac_si();
+        //Here ,0 means array position 0 will be active class
+        $this->template->full_admin_html_view($content);
+    }
+
+    public function lich_hen() {
+        $content = $this->lcustomer->lich_hen();
+        //Here ,0 means array position 0 will be active class
+        $this->template->full_admin_html_view($content);
+    }
+
     //customer_search_item
     public function customer_search_item() {
         $customer_id = $this->input->post('customer_id',true);

@@ -98,6 +98,12 @@
 										<th><?php echo display('invoice_id') ?></th>
 										<th><?php echo display('customer_name') ?></th>
 										<th><?php echo display('date') ?></th>
+										<th><?php echo display('date') ?></th>
+										<th><?php echo display('date') ?></th>
+										<th><?php echo display('date') ?></th>
+										<th><?php echo display('date') ?></th>
+										<th><?php echo display('date') ?></th>
+										<th><?php echo display('date') ?></th>
 										<th><?php echo display('payment_type') ?></th>
 										<th><?php echo display('total_amount') ?></th>
                                         <?php

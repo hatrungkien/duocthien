@@ -1,8 +1,11 @@
 <!-- Tồn kho ban đầu Start -->
 <div class="content-wrapper">
     <section class="content-header">
-        
-        <div class="header-title form-group" style="padding-top: 20px;">
+        <div class="header-icon">
+            <i class="pe-7s-note2"></i>
+        </div>
+        <div class="header-title form-group">
+            <h1><?php echo('DANH SÁCH NHẬP KHO BAN ĐẦU') ?></h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="pe-7s-home"></i> <?php echo display('home') ?></a></li>
                 <li><a href="#"><?php echo display('customer') ?></a></li>
@@ -37,23 +40,33 @@
         }
         ?>
 
+        <div class="row">
+            <div class="col-sm-12">
+            <!-- Phần tiêu đề form và 4 nút chọn trên cùng -->
+            <!-- fix this data area -->
+            <!-- sửa đường dẫm và các permission tương ứng -->
+                <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                                <a href="<?php echo('Thêm mới') ?>" class="btn btn-info m-b-5 m-r-2"><?php echo('Thêm mới') ?> </a>
+                            <?php }?>
+                            <?php if($this->permission1->method('manage_customer','read')->access()){ ?>
+                                <a href="<?php echo base_url('Ccustomer/manage_customer') ?>" class="btn btn-primary m-b-5 m-r-2"><?php echo('Phiếu nháp') ?> </a>
+                            <?php }?>
+                            <?php if($this->permission1->method('credit_customer','read')->access()){ ?>
+                                <a href="<?php echo base_url('Ccustomer/credit_customer') ?>" class="btn btn-success m-b-5 m-r-2"><?php echo('Nhân bản phiếu nhập') ?> </a>
+                                <?php }?>
+                            <?php if($this->permission1->method('paid_customer','read')->access()){ ?>
+                                <a href="<?php echo base_url('Ccustomer/paid_customer') ?>" class="btn btn-warning m-b-5 m-r-2"><?php echo('Phiếu xuất Excel') ?> </a>
+                                <?php }?>
+
+              
+            </div>
+        </div>
 <!-- Phần lựa chọn tìm kiếm và 2 lựa chọn về ngày tháng -->
 <!-- fix this data area -->
 <!-- sửa đường dẫn, hàm truy vấn cho lựa chọn tìm kiếm -->
-            <div class="row">
+             <div class="row">
             <div class="col-sm-12">
-                <div class="panel panel-bd">
-                    <div class="panel-heading">
-                        <h4 class="col-sm-6" align="left">DANH SÁCH NHẬP KHO BAN ĐẦU</h4>
-                        <div class="col-sm-6" align="right">
-                            <button class="btn-success btn">Thêm mới</button>
-                            <button class="btn-success btn">Phiếu nháp</button>
-                            <button class="btn-success btn">Nhân bản phiếu nhập</button>
-                            <button class="btn-success btn">Phiếu xuất Excel</button>
-                        </div>
-                        <br>
-                        <br>
-                    </div>
+                <div class="panel panel-default">
                     <div class="panel-body"> 
                         <?php echo form_open('Ccustomer/customer_ledgerData', array('class' => '', 'id' => 'validate')) ?>
                         <?php $today = date('Y-m-d'); ?>
@@ -87,13 +100,12 @@
                         </div>
                         
                         <?php echo form_close() ?>
-                        <div class="form-group row panel-body col-sm-12" align="right">
+                    </div>
+                        <div class="form-group row panel-body" align="right">
                             <button type="submit" class="btn btn-success "><i class="dx-icon dx-icon-column-chooser" aria-hidden="true"></i> <?php echo('Chọn cột') ?></button>
                             <button type="button" class="btn btn-warning"  onclick="printDiv('printableArea')"><?php echo display('print') ?></button>
                             <button type="submit" class="btn btn-success "><i class="" aria-hidden="true"></i> <?php echo('Các dòng được chọn') ?></button>
                         </div>
-                    </div>
-                        
                 </div>
             </div>
         </div>

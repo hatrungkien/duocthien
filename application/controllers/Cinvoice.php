@@ -99,12 +99,29 @@ class Cinvoice extends CI_Controller {
         $content = $this->linvoice->invoice_list();
         $this->template->full_admin_html_view($content);
     }
+	// Đơn hàng theo đơn
+	public function manage_invoice_1() {
+        $CI = & get_instance();
+        $this->auth->check_admin_auth();
+        $CI->load->library('linvoice');
+        $CI->load->model('Invoices');
+        $content = $this->linvoice->invoice_list_1();
+        $this->template->full_admin_html_view($content);
+    }
 
         public function CheckInvoiceList(){
         // GET data
         $this->load->model('Invoices');
         $postData = $this->input->post();
         $data = $this->Invoices->getInvoiceList($postData);
+        echo json_encode($data);
+    } 
+	// Đơn hàng theo đơn
+	public function CheckInvoiceList_1(){
+        // GET data
+        $this->load->model('Invoices');
+        $postData = $this->input->post();
+        $data = $this->Invoices->getInvoiceList_1($postData);
         echo json_encode($data);
     } 
 	// search invoice by invoice id
@@ -571,14 +588,14 @@ class Cinvoice extends CI_Controller {
             $data['title']        = display('gui_pos');
             $saveid               = $this->session->userdata('user_id');
             $walking_customer     = $this->Invoices->pos_customer_setup();
-            $data['customer_id']  = $walking_customer[0]['customer_id'];
-            $data['customer_name']= $walking_customer[0]['customer_name'];
+            $data['customer_id']  = $walking_customer[0]['customer_id'] ?? 'default value';
+            $data['customer_name']= $walking_customer[0]['customer_name'] ?? 'default value';
             $customer_details     = $this->Invoices->pos_customer_setup();
             $currency_details     = $this->Web_settings->retrieve_setting_editdata();
-            $data['customer_name']= $customer_details[0]['customer_name'];
+            $data['customer_name']= $customer_details[0]['customer_name'] ?? 'default value';
             $data['typelist']     = $this->Invoices->type_dropdown();
             $data['categorylist']  = $this->Invoices->category_dropdown();
-            $data['customer_id']  = $customer_details[0]['customer_id'];
+            $data['customer_id']  = $customer_details[0]['customer_id']?? 'default value';
             $data['itemlist']     =  $this->Invoices->allproduct();
             $data['discount_type']= $currency_details[0]['discount_type'];
             $data['taxes']        = $taxfield;
