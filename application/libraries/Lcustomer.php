@@ -22,7 +22,7 @@ class Lcustomer {
 
     //Retrieve  Credit Customer List	
     public function credit_customer_list() {
-        $CI = & get_instance();
+        $CI =& get_instance();
         $CI->load->model('Customers');
         $CI->load->model('Web_settings');
         $company_info = $CI->Customers->retrieve_company();
@@ -149,7 +149,7 @@ class Lcustomer {
         $CI->load->model('Country_model');
         $data = array(
             'title' => display('add_customer'),
-             'country_list' => $CI->Country_model->country(),
+            'country_list' => $CI->Country_model->country(),
         );
         $customerForm = $CI->parser->parse('customer/add_customer_form', $data, true);
         return $customerForm;
@@ -181,7 +181,7 @@ class Lcustomer {
             'fax'             => $customer_detail[0]['fax'],
             'contact'         => $customer_detail[0]['contact'],
             'city'            => $customer_detail[0]['city'],
-            'district'            => $customer_detail[0]['district'],
+            'district'        => $customer_detail[0]['district'],
             'state'           => $customer_detail[0]['state'],
             'zip'             => $customer_detail[0]['zip'],
             

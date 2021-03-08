@@ -24,6 +24,27 @@ class Lgpp1 {
     //     $purchaseList = $CI->parser->parse('gpp1/index', $data, true);
     //     return $purchaseList;
     // }
+    
+    public function adr_add_form() {
+        $CI = & get_instance();
+        // $CI->load->model('Purchases');
+
+        $CI->load->model('Gpp1');
+
+        $CI->load->model('Web_settings');
+        $CI->load->library('occational');
+        $currency_details = $CI->Web_settings->retrieve_setting_editdata();
+        // $company_info = $CI->Purchases->retrieve_company();
+        $data = array(
+            'title'          => display('adr_add_form'),
+            // 'company_info'   => $company_info,
+            'currency' 	     => $currency_details[0]['currency'],
+            // 'total_purhcase' => $CI->Purchases->count_purchase(),
+        );
+
+        $adrForm = $CI->parser->parse('gpp1/index', $data, true);
+        return $adrForm;
+    }
 
     // ------------------TEST-------------
     public function gpp_list() {
@@ -43,7 +64,7 @@ class Lgpp1 {
             // 'total_purhcase' => $CI->Purchases->count_purchase(),
         );
 
-        $purchaseList = $CI->parser->parse('gpp1/index', $data, true);
+        $purchaseList = $CI->parser->parse('gpp1/gpp_list', $data, true);
         return $purchaseList;
     }
 

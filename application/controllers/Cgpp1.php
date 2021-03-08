@@ -5,6 +5,7 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
     
 class Cgpp1 extends CI_Controller {
+    
     public $menu;
     
     function __construct() {
@@ -15,6 +16,13 @@ class Cgpp1 extends CI_Controller {
         $this->load->library('session');
         $this->load->model('Gpp1');
         $this->auth->check_admin_auth();
+    }
+
+    //Default loading for ADR
+    public function index() {
+        $content = $this->lgpp1->gpp_list();
+        //Here ,0 means array position 0 will be active class
+        $this->template->full_admin_html_view($content);
     }
         // Default loading for Customer System.
 //   public function index()

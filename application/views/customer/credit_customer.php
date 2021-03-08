@@ -93,16 +93,14 @@
                                 <tbody>
                                   
                                 </tbody>
-                                 <tfoot>
-                                            <tr>
-                <th colspan="7" class="text-right"><?php echo display('total') ?>:</th>
-                <th id="totalbalance"></th>
-                   <th></th>
-            </tr>
-                                            
-                                        </tfoot> 
+                                <tfoot>
+                                <tr>
+                                    <th colspan="7" class="text-right"><?php echo display('total') ?>:</th>
+                                    <th id="totalbalance"></th>
+                                    <th></th>
+                                </tr>
+                                    </tfoot> 
                             </table>
-                          
                         </div>
                     </div>
                     <input type="hidden" name="" id="total_credit_customer" value="<?php echo html_escape($total_customer);?>">

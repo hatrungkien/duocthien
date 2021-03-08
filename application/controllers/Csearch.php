@@ -14,127 +14,196 @@ class Csearch extends CI_Controller {
 		
     }
     #===========Company page load===========#
-	public function index()
+	public function bao_cao_so_lieu_hang_thang()
 	{
-		$content = $this->lsearch->medicine_search_form();
+		$content = $this->lsearch->bao_cao_so_lieu_hang_thang();
 		$this->template->full_admin_html_view($content);
 	}
 
     #===========Medicine page load=========#
-	public function medicine()
+	public function tu_thuoc()
 	{
-		$content = $this->lsearch->medicine_search_form();
+		$content = $this->lsearch->tu_thuoc();
 		$this->template->full_admin_html_view($content);
 	}
 
-	#===========Medicine search============#
-	public function medicine_search()
+	public function ton_duoi_dinh_muc()
 	{
-
-		$keyword = $this->input->post('what_you_search',true);
-		$search_result = $this->Searchs->medicine_search($keyword);
-
-		if(!empty($search_result)){
-			$i=1;
-			foreach($search_result as $k=>$v){$i++;
-			   $search_result[$k]['sl']=$i;
-			}
-		}
-
-		$data = array(
-				'title' => display('medicine_search'),
-				'search_result' => $search_result
-			);
-		$content = $this->parser->parse('search/medicine_search',$data,true);
+		$content = $this->lsearch->ton_duoi_dinh_muc();
 		$this->template->full_admin_html_view($content);
 	}
 
-	#===========Customer page load=========#
-	public function customer()
+	public function doi_chieu_duoc()
 	{
-		$content = $this->lsearch->customer_search_form();
+		$content = $this->lsearch->doi_chieu_duoc();
 		$this->template->full_admin_html_view($content);
 	}
 
-	#===========Customer search============#
-	public function customer_search()
+	public function duoc_ton_duoi_dinh_muc()
 	{
-		$keyword = $this->input->post('what_you_search',true);
-		$search_result = $this->Searchs->customer_search($keyword);
-
-		if(!empty($search_result)){
-			$i=1;
-			foreach($search_result as $k=>$v){$i++;
-			   $search_result[$k]['sl']=$i;
-			}
-		}
-
-		$data = array(
-				'title' =>display('customer_search'),
-				'search_result' => $search_result
-			);
-		$content = $this->parser->parse('search/customer_search',$data,true);
+		$content = $this->lsearch->duoc_ton_duoi_dinh_muc();
 		$this->template->full_admin_html_view($content);
 	}
 
-	#===========Inoice page load=========#
-	public function invoice()
+	public function nhap_xuat_ton()
 	{
-		$content = $this->lsearch->invoice_search_form();
+		$content = $this->lsearch->nhap_xuat_ton();
 		$this->template->full_admin_html_view($content);
 	}
 
-	#===========Invoice search============#
-	public function invoice_search()
+	public function chi_tiet_hang_ban()
 	{
-		$keyword = $this->input->post('what_you_search',true);
-		$search_result = $this->Searchs->invoice_search($keyword);
-
-		if(!empty($search_result)){
-			$i=1;
-			foreach($search_result as $k=>$v){$i++;
-			   $search_result[$k]['sl']=$i;
-			}
-		}
-		$currency_details = $this->Web_settings->retrieve_setting_editdata();
-		$data = array(
-				'title' =>display('invoice_search'),
-				'search_result' => $search_result,
-				'currency' => $currency_details[0]['currency'],
-				'position' => $currency_details[0]['currency_position'],
-			);
-		$content = $this->parser->parse('search/invoice_search',$data,true);
-		$this->template->full_admin_html_view($content);
-	}
-	
-
-	#===========Purchase page load=========#
-	public function purchase()
-	{
-		$content = $this->lsearch->purchase_search_form();
+		$content = $this->lsearch->chi_tiet_hang_ban();
 		$this->template->full_admin_html_view($content);
 	}
 
-	#===========Purchase search============#
-	public function purchase_search()
+	public function chi_tiet_nhap_du_tru()
 	{
-		$keyword = $this->input->post('what_you_search',true);
-		$search_result = $this->Searchs->purchase_search($keyword);
+		$content = $this->lsearch->chi_tiet_nhap_du_tru();
+		$this->template->full_admin_html_view($content);
+	}
 
-		if(!empty($search_result)){
-			$i=1;
-			foreach($search_result as $k=>$v){$i++;
-			   $search_result[$k]['sl']=$i;
-			}
-		}
-		$currency_details = $this->Web_settings->retrieve_setting_editdata();
-		$data = array(
-				'title' =>display('purchase_search'),
-				'search_result' => $search_result,
-				'currency' => $currency_details[0]['currency'],
-				'position' => $currency_details[0]['currency_position'],
-			);
-		$content = $this->parser->parse('search/purchase_search',$data,true);
+	public function chi_tiet_hang_nhap()
+	{
+		$content = $this->lsearch->chi_tiet_hang_nhap();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function thong_ke_loi_nhuan()
+	{
+		$content = $this->lsearch->thong_ke_loi_nhuan();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function the_kho()
+	{
+		$content = $this->lsearch->the_kho();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function gia_nhap_thay_doi()
+	{
+		$content = $this->lsearch->gia_nhap_thay_doi();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function gia_ban_thay_doi()
+	{
+		$content = $this->lsearch->gia_ban_thay_doi();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function so_sanh_duoc_nhap_xuat()
+	{
+		$content = $this->lsearch->so_sanh_duoc_nhap_xuat();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function thong_ke_doanh_so()
+	{
+		$content = $this->lsearch->thong_ke_doanh_so();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function thong_ke_doanh_thu()
+	{
+		$content = $this->lsearch->thong_ke_doanh_thu();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function thong_ke_ty_le_ban_hang()
+	{
+		$content = $this->lsearch->thong_ke_ty_le_ban_hang();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function bieu_do_thong_ke_doanh_so()
+	{
+		$content = $this->lsearch->bieu_do_thong_ke_doanh_so();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function TK_doanh_so_hh()
+	{
+		$content = $this->lsearch->TK_doanh_so_hh();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function thong_ke_doanh_so_2()
+	{
+		$content = $this->lsearch->thong_ke_doanh_so_2();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function TK_hang_nhap_tu_NCC()
+	{
+		$content = $this->lsearch->TK_hang_nhap_tu_NCC();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function log_he_thong()
+	{
+		$content = $this->lsearch->log_he_thong();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function tra_cuu_duoc_ton()
+	{
+		$content = $this->lsearch->tra_cuu_duoc_ton();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function bao_cao_dieu_chinh_gia()
+	{
+		$content = $this->lsearch->bao_cao_dieu_chinh_gia();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function DS_duoc_ban_cham()
+	{
+		$content = $this->lsearch->DS_duoc_ban_cham();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function bieu_do_TK_doanh_so_theo_nam()
+	{
+		$content = $this->lsearch->bieu_do_TK_doanh_so_theo_nam();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function danh_sach_xuat_hang()
+	{
+		$content = $this->lsearch->danh_sach_xuat_hang();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function BC_so_luong_ban_theo_duoc()
+	{
+		$content = $this->lsearch->BC_so_luong_ban_theo_duoc();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function tra_cuu_duoc_het_ton_kho()
+	{
+		$content = $this->lsearch->tra_cuu_duoc_het_ton_kho();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function bao_cao_ton_kho()
+	{
+		$content = $this->lsearch->bao_cao_ton_kho();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function lich_su_dang_nhap_dang_xuat()
+	{
+		$content = $this->lsearch->lich_su_dang_nhap_dang_xuat();
+		$this->template->full_admin_html_view($content);
+	}
+
+	public function doanh_so_nhan_vien_theo_loai()
+	{
+		$content = $this->lsearch->doanh_so_nhan_vien_theo_loai();
 		$this->template->full_admin_html_view($content);
 	}
 }
