@@ -56,34 +56,77 @@
         </div>
 
         <!-- date between search -->
-       <div class="row">
-             <div class="col-sm-12">
-                <div class="panel panel-default">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-bd">
+                    <div class="panel-heading">
+                        <h4>TÌM KIẾM</h4>
+                    </div>
                     <div class="panel-body"> 
+                        <?php echo form_open('Ccustomer/customer_ledgerData', array('class' => '', 'id' => 'validate')) ?>
+                        <?php $today = date('Y-m-d'); ?>
+                        
                         <div class="col-sm-10">
-                        <?php echo form_open('', array('class' => 'form-inline', 'method' => 'get')) ?>
-                        <?php
-                      
-                        $today = date('Y-m-d');
-                        ?>
-                        <div class="form-group">
-                            <label class="" for="from_date"><?php echo display('start_date') ?></label>
-                            <input type="text" name="from_date" class="form-control datepicker" id="from_date" value="" placeholder="<?php echo display('start_date') ?>" >
-                        </div> 
-
-                        <div class="form-group">
-                            <label class="" for="to_date"><?php echo display('end_date') ?></label>
-                            <input type="text" name="to_date" class="form-control datepicker" id="to_date" placeholder="<?php echo display('end_date') ?>" value="">
-                        </div>  
-
-                        <button type="button" id="btn-filter" class="btn btn-success"><?php echo display('find') ?></button>
-
+                            <div class="form-group row">
+                                <label for="from_date " class="col-sm-2 col-form-label"> <?php echo('Từ ngày') ?><i class="text-danger">*</i></label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="from_date"  value="<?php echo (!empty($start)?$start:$today); ?>" class="datepicker form-control" id="from_date"/>
+                                </div>
+                                <label for="to_date" class="col-sm-2 col-form-label"> <?php echo('Đến ngày') ?><i class="text-danger">*</i></label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="to_date" value="<?php echo (!empty($end)?$end:$today); ?>" class="datepicker form-control" id="to_date"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="form-group row">
+                                <label for="customer_name" class="col-sm-2 col-form-label"><?php echo('Trạng thái duyệt') ?> <i class="text-danger">*</i></label>
+                                <div class="col-sm-4">
+                                    <select name="customer_id"  class="form-control" required="">
+                                        <option value=""></option>
+                                       <?php foreach($customer as $customers){?>
+                                        <option value="<?php echo html_escape($customers['customer_id'])?>"  <?php if($customers['customer_id'] == $customer_id){echo 'selected';}?>><?php echo html_escape($customers['customer_name'])?></option>
+                                       <?php }?>
+                                    </select>
+                                </div>
+                                <label for="customer_name" class="col-sm-2 col-form-label"><?php echo('TT thanh toán') ?> <i class="text-danger">*</i></label>
+                                <div class="col-sm-4">
+                                    <select name="customer_id"  class="form-control" required="">
+                                        <option value=""></option>
+                                       <?php foreach($customer as $customers){?>
+                                        <option value="<?php echo html_escape($customers['customer_id'])?>"  <?php if($customers['customer_id'] == $customer_id){echo 'selected';}?>><?php echo html_escape($customers['customer_name'])?></option>
+                                       <?php }?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="form-group row">
+                                <label for="customer_name" class="col-sm-2 col-form-label"><?php echo('Loại đơn hàng') ?> <i class="text-danger">*</i></label>
+                                <div class="col-sm-4">
+                                    <select name="customer_id"  class="form-control" required="">
+                                        <option value=""></option>
+                                       <?php foreach($customer as $customers){?>
+                                        <option value="<?php echo html_escape($customers['customer_id'])?>"  <?php if($customers['customer_id'] == $customer_id){echo 'selected';}?>><?php echo html_escape($customers['customer_name'])?></option>
+                                       <?php }?>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" name="">
+                                    <label for=""> Theo nhóm</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
                         <?php echo form_close() ?>
                     </div>
-                  
-          
+                    <div class="form-group row panel-body" align="right">
+                            <button type="submit" class="btn btn-success "><?php echo('Tìm kiếm') ?></button>
+                            <button type="submit" class="btn btn-success "><?php echo('In') ?></button>
+                            <button type="submit" class="btn btn-success "><?php echo('Làm mới') ?></button>
+                        </div>
                 </div>
-            </div>
             </div>
         </div>
         <div class="row"> 
@@ -101,10 +144,20 @@
                                 <thead>
                                     <tr>
                                         <th><?php echo display('sl') ?></th>
+                                        <th><?php echo display('action') ?></th>
                                         <th><?php echo display('invoice_no') ?></th>
-                                        <th><?php echo display('customer_name') ?></th>
                                         <th><?php echo display('date') ?></th>
+                                        
+                                        <th><?php echo display('customer_name') ?></th>
+                                        <th><?php echo ('Nhân viên') ?></th>
+                                        <th><?php echo ('TT phụ thu') ?></th>
+                                        <th><?php echo ('TT thu') ?></th>
+                                        <th><?php echo ('Giảm giá') ?></th>
+                                        <th><?php echo ('Công nợ') ?></th>
+                                        <th><?php echo ('Trạng thái thanh toán') ?></th>
+                                        
                                         <th><?php echo display('total_amount') ?></th>
+                                        <!-- Tạm để là "echo" thay vì "echo display" -->
                                         <th><?php echo display('action') ?></th>
                                     </tr>
                                 </thead>
@@ -116,6 +169,14 @@
                 
                   <th></th>  
                   <th></th> 
+                  <th></th>  
+                  <th></th> 
+                  <th></th>  
+                  <th></th> 
+                  <th></th>  
+                  <th></th> 
+                  <th></th>
+                 
                                 </tfoot>
                             </table>
                             

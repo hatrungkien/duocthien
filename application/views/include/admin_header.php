@@ -10,6 +10,10 @@
     $out_of_date  = $CI->Reports->out_of_date_count();
 ?>
 <!-- Admin header end -->
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="">
+</head>
 <header class="main-header" id="main-heades">
     <a href="<?php echo base_url()?>" class="logo"> <!-- Logo -->
         <span class="logo-mini">
@@ -108,64 +112,1887 @@
         <ul class="sidebar-menu">
 
             <li class="<?php if ($this->uri->segment('1') == ("")) { echo "active";}else{ echo " ";}?>">
-                <a href="<?php echo base_url()?>"><i class="ti-dashboard"></i> <span><?php echo display('dashboard') ?></span>
+                <a href="<?php echo base_url()?>"><i class="fa fa-tachometer" aria-hidden="true"></i><span><?php echo display('dashboard') ?></span>
                     <span class="pull-right-container">
                         <span class="label label-success pull-right"></span>
                     </span>
                 </a>
             </li>
 
-
+            <!-- Bán hàng - Invoice menu start -->
             <?php
              if($this->permission1->module('new_invoice')->access() || $this->permission1->module('manage_invoice')->access() || $this->permission1->module('pos_invoice')->access()|| $this->permission1->module('gui_pos')->access()) { ?>
                 <li class="treeview <?php if ($this->uri->segment('1') == ("Cinvoice")) { echo "active";}else{ echo " ";}?>">
                     <a href="#">
-                        <i class="fa fa-balance-scale"></i><span><?php echo display('invoice') ?></span>
+                    <i class="fa fa-cart-arrow-down" aria-hidden="true"></i></i><span><?php echo display('invoice') ?></span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <?php
-                          if($this->permission1->method('new_invoice','create')->access()) { ?>
-                            <li  class="treeview <?php if ($this->uri->segment('1') == ("Cinvoice") && $this->uri->segment('2') == ("")){
+                    <?php if($this->permission1->method('pos_invoice','create')->access()) { ?>
+                        <li  class="treeview <?php if ($this->uri->segment('2') == ("pos_invoice")){
                         echo "active";
-                    } else {
-                        echo " ";
-                    }?>"><a href="<?php echo base_url('Cinvoice') ?>"><?php echo display('new_invoice') ?></a></li>
+                        } else {
+                            echo " ";
+                        }?>"><a href="<?php echo base_url('Cinvoice/pos_invoice')?>"><?php echo display('pos_invoice') ?></a></li>
                         <?php } ?>
 
-                        <?php
-                          if($this->permission1->method('manage_invoice','read')->access() || $this->permission1->method('manage_invoice','update')->access() || $this->permission1->method('manage_invoice','delete')->access()) { ?>
-                            <li class="treeview <?php if ($this->uri->segment('2') == ("manage_invoice")){
+                        <?php  if($this->permission1->method('new_invoice','create')->access()) { ?>
+                        <li  class="treeview <?php if ($this->uri->segment('1') == ("Cinvoice") && $this->uri->segment('2') == ("")){
                         echo "active";
-                    } else {
-                        echo " ";
-                    }?>"><a href="<?php echo base_url('Cinvoice/manage_invoice')?>"><?php echo display('manage_invoice') ?></a></li>
+                        } else {
+                            echo " ";
+                        }?>">
+                        <a href="<?php echo base_url('Cinvoice') ?>"><?php echo display('new_invoice') ?></a></li>
                         <?php } ?>
 
-                        <?php
-                        if($this->permission1->method('pos_invoice','create')->access()) { ?>
-                            <li  class="treeview <?php if ($this->uri->segment('2') == ("pos_invoice")){
-                        echo "active";
-                    } else {
-                        echo " ";
-                    }?>"><a href="<?php echo base_url('Cinvoice/pos_invoice')?>"><?php echo display('pos_invoice') ?></a></li>
-                        <?php } ?>
-                        <?php
-                        if($this->permission1->method('gui_pos','create')->access()) { ?>
+                        <?php if($this->permission1->method('gui_pos','create')->access()) { ?>
                          <li  class="treeview <?php if ($this->uri->segment('2') == ("gui_pos")){
                         echo "active";
-                    } else {
-                        echo " ";
-                    }?>"><a href="<?php echo base_url('Cinvoice/gui_pos')?>"><?php echo display('gui_pos') ?></a></li>
+                        } else {
+                            echo " ";
+                        }?>"><a href="<?php echo base_url('Cinvoice/gui_pos')?>"><?php echo display('gui_pos') ?></a></li>
                           <?php } ?>
+
+                        <?php if($this->permission1->method('manage_invoice','read')->access() || $this->permission1->method('manage_invoice','update')->access() || $this->permission1->method('manage_invoice','delete')->access()) { ?>
+                        <li class="treeview <?php if ($this->uri->segment('2') == ("manage_invoice")){
+                        echo "active";
+                        } else {
+                            echo " ";
+                        }?>"><a href="<?php echo base_url('Cinvoice/manage_invoice')?>"><?php echo display('manage_invoice') ?></a></li>
+                        <?php } ?>
+                        <!------- Thịnh thêm để chỉnh sửa -------->
+                        <?php if($this->permission1->method('manage_invoice_1','read')->access() || $this->permission1->method('manage_invoice_1','update')->access() || $this->permission1->method('manage_invoice_1','delete')->access()) { ?>
+                        <li class="treeview <?php if ($this->uri->segment('2') == ("manage_invoice_1")){
+                        echo "active";
+                        } else {
+                            echo " ";
+                        }?>"><a href="<?php echo base_url('Cinvoice/manage_invoice_1')?>"><?php echo display('manage_invoice_1') ?></a></li>
+                        <?php } ?>
                     </ul>
                 </li>
             <?php } ?>
 
-            <!-- Invoice menu end -->
+            <!-- Bán hàng - Invoice menu end -->
 
+
+            <!-- Tên menu tiếng việt - Tên menu tiếng anh menu start -->
+            <?php
+            //permission Ví dụ:
+            if($this->permission1->module('add_customer')->access() || $this->permission1->module('manage_customer')->access() || $this->permission1->module('credit_customer')->access() || $this->permission1->module('paid_customer')->access()|| $this->permission1->module('customer_ledger')->access() || $this->permission1->module('customer_advance')->access())
+            { ?>
+            <!-- sửa tên Controller tương ứng -->
+            <li class="treeview <?php if ($this->uri->segment('1') == ("tên của Controller")) { echo "active";}else{ echo " ";}?> ">
+                <a href="#">
+                    <!-- tên của menu -->
+                    <i class="fa fa-handshake-o"></i><span><?php echo('Tên của Menu') ?></span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <!-- Menu con của nhập kho -->
+                <ul class="treeview-menu">
+                <!-- sửa premission -->
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("tên của Controller") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('tên của Controller') ?>">
+                    <?php echo('tên các option của Menu') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("tên của Controller") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('tên của Controller') ?>">
+                    <?php echo('tên các option của Menu') ?>
+                    </a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+            <?php } ?>
+            <!-- Tên menu tiếng việt - Tên menu tiếng anh menu end -->
+
+            <!-- Nhập kho - StockIn menu start -->
+            <?php
+            //permission Ví dụ:
+            if($this->permission1->module('add_customer')->access() || $this->permission1->module('manage_customer')->access() || $this->permission1->module('credit_customer')->access() || $this->permission1->module('paid_customer')->access()|| $this->permission1->module('customer_ledger')->access() || $this->permission1->module('customer_advance')->access())
+            { ?>
+            <!-- sửa tên Controller tương ứng -->
+            <li class="treeview <?php if ($this->uri->segment('1') == ("Cstockin")) { echo "active";}else{ echo " ";}?> ">
+                <a href="#">
+                    <!-- tên của menu -->
+                    <i class="fa fa-sign-in" aria-hidden="true"></i><span><?php echo('Nhập kho') ?></span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <!-- Menu con -->
+                <ul class="treeview-menu">
+                <!-- sửa premission -->
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cstockin") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cstockin/ton_kho_ban_dau') ?>">
+                    <?php echo('Tồn kho ban đầu') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cstockin") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cstockin/tu_nha_cung_cap') ?>">
+                    <?php echo('Từ nhà cung cấp') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cstockin") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cstockin/hang_tra_lai') ?>">
+                    <?php echo('Hàng trả lại') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cstockin") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cstockin/dieu_chuyen_kho') ?>">
+                    <?php echo('Điều chuyển kho') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cstockin") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cstockin/dieu_chinh_ton') ?>">
+                    <?php echo('Điều chỉnh tồn') ?>
+                    </a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+            <?php } ?>
+            <!-- Nhập kho - StockIn menu end -->
+
+            <!-- Dự trù - BackUp menu start -->
+            <?php
+            //permission Ví dụ:
+            if($this->permission1->module('add_customer')->access() || $this->permission1->module('manage_customer')->access() || $this->permission1->module('credit_customer')->access() || $this->permission1->module('paid_customer')->access()|| $this->permission1->module('customer_ledger')->access() || $this->permission1->module('customer_advance')->access())
+            { ?>
+            <!-- sửa tên Controller tương ứng -->
+            <li class="treeview <?php if ($this->uri->segment('1') == ("Cbackup")) { echo "active";}else{ echo " ";}?> ">
+                <a href="#">
+                    <!-- tên của menu -->
+                    <i class="fa fa-sign-in" aria-hidden="true"></i><span><?php echo('Dự trù') ?></span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <!-- Menu con của dự trù -->
+                <ul class="treeview-menu">
+                <!-- sửa premission -->
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cbackup") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cbackup/nha_cung_cap') ?>">
+                    <?php echo('Nhà cung cấp') ?>
+                    </a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+            <?php } ?>
+            <!-- Dự trù - BackUp menu end -->
+
+            <!-- Xuất kho - StockOut menu start -->
+            <?php
+            //permission Ví dụ:
+            if($this->permission1->module('add_customer')->access() || $this->permission1->module('manage_customer')->access() || $this->permission1->module('credit_customer')->access() || $this->permission1->module('paid_customer')->access()|| $this->permission1->module('customer_ledger')->access() || $this->permission1->module('customer_advance')->access())
+            { ?>
+            <!-- sửa tên Controller tương ứng -->
+            <li class="treeview <?php if ($this->uri->segment('1') == ("Cstockout")) { echo "active";}else{ echo " ";}?> ">
+                <a href="#">
+                    <!-- tên của menu -->
+                    <i class="fa fa-sign-out" aria-hidden="true"></i><span><?php echo('Xuất kho') ?></span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <!-- Menu con -->
+                <ul class="treeview-menu">
+                <!-- sửa premission -->
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cstockout") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cstockout/dieu_chuyen_kho') ?>">
+                    <?php echo('Điều chuyển kho') ?>
+                    </a></li>
+                    <?php } ?>
+                    
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cstockout") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cstockout/dieu_chinh_ton') ?>">
+                    <?php echo('Điều chỉnh tồn') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cstockout") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cstockout/xuat_huy_hang') ?>">
+                    <?php echo('Xuất huỷ hàng') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cstockout") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cstockout/tra_nha_cung_cap') ?>">
+                    <?php echo('Trả nhà cung cấp') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cstockout") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cstockout/huy_don_thuoc') ?>">
+                    <?php echo('Huỷ đơn thuốc') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cstockout") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cstockout/xuat_khac') ?>">
+                    <?php echo('Xuất khác') ?>
+                    </a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+            <?php } ?>
+            <!-- Xuất kho - StockOut menu end -->
+
+            <!-- Kiểm kê - Inventory menu start -->
+            <?php
+            //permission Ví dụ:
+            if($this->permission1->module('add_customer')->access() || $this->permission1->module('manage_customer')->access() || $this->permission1->module('credit_customer')->access() || $this->permission1->module('paid_customer')->access()|| $this->permission1->module('customer_ledger')->access() || $this->permission1->module('customer_advance')->access())
+            { ?>
+            <!-- sửa tên Controller tương ứng -->
+            <li class="treeview <?php if ($this->uri->segment('1') == ("Cinventory")) { echo "active";}else{ echo " ";}?> ">
+                    <a href="<?php echo base_url('Cinventory/kiem_ke') ?>"> 
+                    <!-- tên của menu -->
+                    <i class="fa fa-money" aria-hidden="true"></i><span><?php echo('Kiểm kê') ?></span>
+                </a>
+            </li>
+            <?php } ?>
+            <!-- Kiểm kê - Inventory menu end -->
+
+            <!-- Kế toán - Accounting menu start -->
+            <?php
+            //permission Ví dụ:
+            if($this->permission1->module('add_customer')->access() || $this->permission1->module('manage_customer')->access() || $this->permission1->module('credit_customer')->access() || $this->permission1->module('paid_customer')->access()|| $this->permission1->module('customer_ledger')->access() || $this->permission1->module('customer_advance')->access())
+            { ?>
+            <!-- sửa tên Controller tương ứng -->
+            <li class="treeview <?php if ($this->uri->segment('1') == ("Caccounting")) { echo "active";}else{ echo " ";}?> ">
+                <a href="#">
+                    <!-- tên của menu -->
+                    <i class="fa fa-usd" aria-hidden="true"></i><span><?php echo('Kế toán') ?></span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <!-- Menu con -->
+                <ul class="treeview-menu">
+                <!-- sửa premission -->
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Caccounting") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Caccounting/bien_lai_thu') ?>">
+                    <?php echo('Biên lai thu') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Caccounting") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Caccounting/bien_lai_chi') ?>">
+                    <?php echo('Biên lai chi') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Caccounting") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Caccounting/bao_cao_phu_thu') ?>">
+                    <?php echo('Báo cáo phụ thu') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Caccounting") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Caccounting/bao_cao_thu_chi') ?>">
+                    <?php echo('Biên cáo thu chi') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Caccounting") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Caccounting/khoa_so') ?>">
+                    <?php echo('Khoá sổ') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Caccounting") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Caccounting/doanh_so_theo_ca') ?>">
+                    <?php echo('Doanh số theo ca') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Caccounting") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Caccounting/bao_cao_cong_no_KH') ?>">
+                    <?php echo('Báo cáo công nợ KH') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Caccounting") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Caccounting/bao_cao_CK_bac_si') ?>">
+                    <?php echo('Báo cáo CK bác sĩ') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Caccounting") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Caccounting/tinh_gia_ban') ?>">
+                    <?php echo('Tính giá bán') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Caccounting") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Caccounting/danh_sach_thanh_toan_online') ?>">
+                    <?php echo('Danh sách thanh toán online') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Caccounting") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Caccounting/DS_bao_cao_cong_no_KH') ?>">
+                    <?php echo('DS Báo cáo công nợ KH') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Caccounting") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Caccounting/cong_no_KH_Adler') ?>">
+                    <?php echo('Công nợ KH Adler') ?>
+                    </a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+            <?php } ?>
+            <!-- Kế toán - Accounting menu end -->
+
+            <!-- Tra cứu - Search menu start -->
+            <?php
+            //permission Ví dụ:
+            if($this->permission1->module('add_customer')->access() || $this->permission1->module('manage_customer')->access() || $this->permission1->module('credit_customer')->access() || $this->permission1->module('paid_customer')->access()|| $this->permission1->module('customer_ledger')->access() || $this->permission1->module('customer_advance')->access())
+            { ?>
+            <!-- sửa tên Controller tương ứng -->
+            <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch")) { echo "active";}else{ echo " ";}?> ">
+                <a href="#">
+                    <!-- tên của menu -->
+                    <i class="fa fa-search" aria-hidden="true"></i><span><?php echo('Tra cứu') ?></span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <!-- Menu con của nhập kho -->
+                <ul class="treeview-menu">
+                <!-- sửa premission -->
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/bao_cao_so_lieu_hang_thang') ?>">
+                    <?php echo('Báo cáo số liệu hàng tháng') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/tu_thuoc') ?>">
+                    <?php echo('Tủ thuốc') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/ton_duoi_dinh_muc') ?>">
+                    <?php echo('Tồn dưới định mức') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/doi_chieu_duoc') ?>">
+                    <?php echo('Đối chiếu dược') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/duoc_ton_duoi_dinh_muc') ?>">
+                    <?php echo('Dược tồn dưới định mức') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/nhap_xuat_ton') ?>">
+                    <?php echo('Nhập xuất tồn') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/chi_tiet_hang_ban') ?>">
+                    <?php echo('Chi tiết hàng bán') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/chi_tiet_nhap_du_tru') ?>">
+                    <?php echo('Chi tiết nhập dự trù') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/chi_tiet_hang_nhap') ?>">
+                    <?php echo('Chi tiết hàng nhập') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/thong_ke_loi_nhuan') ?>">
+                    <?php echo('Thống kê lợi nhuận') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/the_kho') ?>">
+                    <?php echo('Thẻ kho') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/gia_nhap_thay_doi') ?>">
+                    <?php echo('Giá nhập thay đổi') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/gia_ban_thay_doi') ?>">
+                    <?php echo('Giá bán thay đổi') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/so_sanh_duoc_nhap_xuat') ?>">
+                    <?php echo('So sánh dược nhập-xuất') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/thong_ke_doanh_so') ?>">
+                    <?php echo('Thống kê doanh số') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/thong_ke_doanh_thu') ?>">
+                    <?php echo('Thống kê doanh thu') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/thong_ke_ty_le_ban_hang') ?>">
+                    <?php echo('Thống kê tỷ lệ bán hàng') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/bieu_do_thong_ke_doanh_so') ?>">
+                    <?php echo('Biểu đồ thống kê doanh số') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/TK_doanh_so_hh') ?>">
+                    <?php echo('TK doanh số hh') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/thong_ke_doanh_so_2') ?>">
+                    <?php echo('Thống kê doanh số 2') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/TK_hang_nhap_tu_NCC') ?>">
+                    <?php echo('TK hàng nhập từ NCC') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/log_he_thong') ?>">
+                    <?php echo('Log hệ thống') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/tra_cuu_duoc_ton') ?>">
+                    <?php echo('Tra cứu dược tồn') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/bao_cao_dieu_chinh_gia') ?>">
+                    <?php echo('Báo cáo điều chỉnh giá') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/DS_duoc_ban_cham') ?>">
+                    <?php echo('DS dược bán chậm') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/bieu_do_TK_doanh_so_theo_nam') ?>">
+                    <?php echo('Biểu đồ TK doanh số theo năm') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/danh_sach_xuat_hang') ?>">
+                    <?php echo('Danh sách xuất hàng') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/BC_so_luong_ban_theo_duoc') ?>">
+                    <?php echo('BC Số lượng bán theo dược') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/tra_cuu_duoc_het_ton_kho') ?>">
+                    <?php echo('Tra cứu dược hết tồn kho') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/bao_cao_ton_kho') ?>">
+                    <?php echo('Báo cáo tồn kho') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/lich_su_dang_nhap_dang_xuat') ?>">
+                    <?php echo('Lịch sử đăng nhập-đăng xuất') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csearch") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csearch/doanh_so_nhan_vien_theo_loai') ?>">
+                    <?php echo('Doanh số nhân viên theo loại') ?>
+                    </a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+            <?php } ?>
+            <!-- Tra cứu - Search menu end -->
+
+            <!-- Khách hàng - Customer menu start -->
+            <?php
+            //permission Ví dụ:
+            if($this->permission1->module('add_customer')->access() || $this->permission1->module('manage_customer')->access() || $this->permission1->module('credit_customer')->access() || $this->permission1->module('paid_customer')->access()|| $this->permission1->module('customer_ledger')->access() || $this->permission1->module('customer_advance')->access())
+            { ?>
+            <!-- sửa tên Controller tương ứng -->
+            <li class="treeview <?php if ($this->uri->segment('1') == ("Ccustomer")) { echo "active";}else{ echo " ";}?> ">
+                <a href="#">
+                    <!-- tên của menu -->
+                    <i class="fa fa-address-book" aria-hidden="true"></i><span><?php echo('Khách hàng') ?></span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <!-- Menu con -->
+                <ul class="treeview-menu">
+                <!-- sửa premission -->
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccustomer") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccustomer/danh_sach_khach_hang') ?>">
+                    <?php echo('Khách hàng') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccustomer") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccustomer/bac_si') ?>">
+                    <?php echo('Bác sĩ') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccustomer") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccustomer/lich_hen') ?>">
+                    <?php echo('Lịch hẹn') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccustomer") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccustomer/the_phat_hanh') ?>">
+                    <?php echo('Thẻ phát hành') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccustomer") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccustomer/doi_tuong_khach_hang') ?>">
+                    <?php echo('Đối tượng khách hàng') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccustomer") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccustomer/feedback') ?>">
+                    <?php echo('Feedback') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccustomer") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccustomer/quan_ly_tk_tho') ?>">
+                    <?php echo('Quản lý TK thợ') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccustomer") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccustomer/quan_ly_tk_khach_hang') ?>">
+                    <?php echo('Quản lý TK khách hàng') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccustomer") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccustomer/ds_hh_chiet_khau_theo_doi_tuong') ?>">
+                    <?php echo('DS hh chiết khấu theo đối tượng') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccustomer") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccustomer/quan_ly_tk_dai_ly') ?>">
+                    <?php echo('Quản lý TK đại lý') ?>
+                    </a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+            <?php } ?>
+            <!-- Khách hàng - Customer menu end -->
+
+            <!-- Nhân sự - HumanResource menu start -->
+            <?php
+            //permission Ví dụ:
+            if($this->permission1->module('add_customer')->access() || $this->permission1->module('manage_customer')->access() || $this->permission1->module('credit_customer')->access() || $this->permission1->module('paid_customer')->access()|| $this->permission1->module('customer_ledger')->access() || $this->permission1->module('customer_advance')->access())
+            { ?>
+            <!-- sửa tên Controller tương ứng -->
+            <li class="treeview <?php if ($this->uri->segment('1') == ("Chumanresource")) { echo "active";}else{ echo " ";}?> ">
+                <a href="#">
+                    <!-- tên của menu -->
+                    <i class="fa fa-calendar" aria-hidden="true"></i><span><?php echo('Nhân sự') ?></span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <!-- Menu con của nhập kho -->
+                <ul class="treeview-menu">
+                <!-- sửa premission -->
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Chumanresource") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Chumanresource') ?>">
+                    <?php echo('Danh sách nhân viên') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Chumanresource") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Chumanresource') ?>">
+                    <?php echo('Chấm công') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Chumanresource") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Chumanresource') ?>">
+                    <?php echo('Bảng tổng hợp công') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Chumanresource") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Chumanresource') ?>">
+                    <?php echo('Tính lương') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Chumanresource") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Chumanresource') ?>">
+                    <?php echo('Danh mục chức vụ') ?>
+                    </a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+            <?php } ?>
+            <!-- Nhân sự - HumanResource menu end -->
+
+            <!-- Báo cáo - Report menu start -->
+            <?php
+            //permission Ví dụ:
+            if($this->permission1->module('add_customer')->access() || $this->permission1->module('manage_customer')->access() || $this->permission1->module('credit_customer')->access() || $this->permission1->module('paid_customer')->access()|| $this->permission1->module('customer_ledger')->access() || $this->permission1->module('customer_advance')->access())
+            { ?>
+            <!-- sửa tên Controller tương ứng -->
+            <li class="treeview <?php if ($this->uri->segment('1') == ("Creport")) { echo "active";}else{ echo " ";}?> ">
+                <a href="#">
+                    <!-- tên của menu -->
+                    <i class="fa fa-list-alt" aria-hidden="true"></i><span><?php echo('Báo cáo') ?></span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <!-- Menu con -->
+                <ul class="treeview-menu">
+                <!-- sửa premission -->
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Creport") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Creport') ?>">
+                    <?php echo('Tổng hợp báo cáo') ?>
+                    </a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+            <?php } ?>
+            <!-- Báo cáo - Report menu end -->
+
+            <!-- Sổ GPP - GPPBook menu start -->
+            <?php
+            //permission Ví dụ:
+            if($this->permission1->module('add_customer')->access() || $this->permission1->module('manage_customer')->access() || $this->permission1->module('credit_customer')->access() || $this->permission1->module('paid_customer')->access()|| $this->permission1->module('customer_ledger')->access() || $this->permission1->module('customer_advance')->access())
+            { ?>
+            <!-- sửa tên Controller tương ứng -->
+            <li class="treeview <?php if ($this->uri->segment('1') == ("Cgppbook")) { echo "active";}else{ echo " ";}?> ">
+                <a href="#">
+                    <!-- tên của menu -->
+                    <i class="fa fa-list-alt" aria-hidden="true"></i><span><?php echo('Sổ GPP') ?></span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <!-- Menu con -->
+                <ul class="treeview-menu">
+                <!-- sửa premission -->
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cgppbook") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cgppbook') ?>">
+                    <?php echo('Sổ theo dõi ADR') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cgppbook") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cgppbook') ?>">
+                    <?php echo('Sổ thuốc đình chỉ lưu hành') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cgppbook") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cgppbook') ?>">
+                    <?php echo('Sổ lưu thông tin đơn thuốc') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cgppbook") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cgppbook') ?>">
+                    <?php echo('Nhiệt độ-Ẩm độ') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cgppbook") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cgppbook') ?>">
+                    <?php echo('Khiếu nại') ?>
+                    </a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+            <?php } ?>
+            <!-- Sổ GPP - GPPBook menu end -->
+
+            <!-- Danh mục - Category menu start -->
+            <?php
+            //permission Ví dụ:
+            if($this->permission1->module('add_customer')->access() || $this->permission1->module('manage_customer')->access() || $this->permission1->module('credit_customer')->access() || $this->permission1->module('paid_customer')->access()|| $this->permission1->module('customer_ledger')->access() || $this->permission1->module('customer_advance')->access())
+            { ?>
+            <!-- sửa tên Controller tương ứng -->
+            <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory")) { echo "active";}else{ echo " ";}?> ">
+                <a href="#">
+                    <!-- tên của menu -->
+                    <i class="fa fa-bars" aria-hidden="true"></i><span><?php echo('Danh mục') ?></span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <!-- Menu con của nhập kho -->
+                <ul class="treeview-menu">
+                <!-- sửa premission -->
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Quầy thuốc') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Nhà cung cấp') ?>
+                    </a></li>
+                    <?php } ?>
+                    
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Quyển biên lai') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Dược') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Danh sách dược quốc gia') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Đơn dược mẫu') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Tủ thuốc') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Loại dược') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Nhóm dược') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Phụ thu') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Đơn vị hành chính') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Ca làm việc') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Danh mục chung') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Chức năng') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Chính sách đánh giá') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Ccategory") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Ccategory') ?>">
+                    <?php echo('Hoạt chất tương tác') ?>
+                    </a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+            <?php } ?>
+            <!-- Danh mục - Category menu end -->
+
+            <!-- Liên thông dữ liệu - DataLink menu start -->
+            <?php
+            //permission Ví dụ:
+            if($this->permission1->module('add_customer')->access() || $this->permission1->module('manage_customer')->access() || $this->permission1->module('credit_customer')->access() || $this->permission1->module('paid_customer')->access()|| $this->permission1->module('customer_ledger')->access() || $this->permission1->module('customer_advance')->access())
+            { ?>
+            <!-- sửa tên Controller tương ứng -->
+            <li class="treeview <?php if ($this->uri->segment('1') == ("Cdatalink")) { echo "active";}else{ echo " ";}?> ">
+                <a href="#">
+                    <!-- tên của menu -->
+                    <i class="fa fa-share-square" aria-hidden="true"></i><?php echo('Liên thông dữ liệu') ?></span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <!-- Menu con của nhập kho -->
+                <ul class="treeview-menu">
+                <!-- sửa premission -->
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cdatalink") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cdatalink') ?>">
+                    <?php echo('Hoá đơn bán hàng') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cdatalink") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cdatalink') ?>">
+                    <?php echo('Phiếu xuất') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cdatalink") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cdatalink') ?>">
+                    <?php echo('Phiếu nhập') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cdatalink") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cdatalink') ?>">
+                    <?php echo('DS thuốc gửi cổng') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cdatalink") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cdatalink') ?>">
+                    <?php echo('DS thuốc gửi cổng BYT') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cdatalink") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cdatalink') ?>">
+                    <?php echo('Hoá đơn bán hàng bán buôn') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cdatalink") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cdatalink') ?>">
+                    <?php echo('Phiếu nhập bán buôn') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cdatalink") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cdatalink') ?>">
+                    <?php echo('Phiếu xuất bán buôn') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cdatalink") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cdatalink') ?>">
+                    <?php echo('DS thuốc gửi cổng bán buôn') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cdatalink") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cdatalink') ?>">
+                    <?php echo('DS thuốc gửi cổng BYT bán buôn') ?>
+                    </a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+            <?php } ?>
+            <!-- Liên thông dữ liệu - DataLink menu end -->
+
+            <!-- Đề xuất, cảnh báo - Offer Warning menu start -->
+            <?php
+            //permission Ví dụ:
+            if($this->permission1->module('add_customer')->access() || $this->permission1->module('manage_customer')->access() || $this->permission1->module('credit_customer')->access() || $this->permission1->module('paid_customer')->access()|| $this->permission1->module('customer_ledger')->access() || $this->permission1->module('customer_advance')->access())
+            { ?>
+            <!-- sửa tên Controller tương ứng -->
+            <li class="treeview <?php if ($this->uri->segment('1') == ("Cofferwarning")) { echo "active";}else{ echo " ";}?> ">
+                <a href="#">
+                    <!-- tên của menu -->
+                    <i class="fa fa-rss" aria-hidden="true"></i><span><?php echo('Đề xuất, Cảnh báo') ?></span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <!-- Menu con của nhập kho -->
+                <ul class="treeview-menu">
+                <!-- sửa premission -->
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cofferwarning") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cofferwarning') ?>">
+                    <?php echo('Danh sách đề xuất') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cofferwarning") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cofferwarning') ?>">
+                    <?php echo('Danh sách cảnh báo') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Cofferwarning") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Cofferwarning') ?>">
+                    <?php echo('Danh sách thông báo') ?>
+                    </a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+            <?php } ?>
+            <!-- Đề xuất, Cảnh báo - Offer Warning menu end -->
+
+            <!-- Hệ thống - System menu start -->
+            <?php
+            //permission Ví dụ:
+            if($this->permission1->module('add_customer')->access() || $this->permission1->module('manage_customer')->access() || $this->permission1->module('credit_customer')->access() || $this->permission1->module('paid_customer')->access()|| $this->permission1->module('customer_ledger')->access() || $this->permission1->module('customer_advance')->access())
+            { ?>
+            <!-- sửa tên Controller tương ứng -->
+            <li class="treeview <?php if ($this->uri->segment('1') == ("Csystem")) { echo "active";}else{ echo " ";}?> ">
+                <a href="#">
+                    <!-- tên của menu -->
+                    <i class="fa fa-cogs" aria-hidden="true"></i><span><?php echo('Hệ thống') ?></span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <!-- Menu con của nhập kho -->
+                <ul class="treeview-menu">
+                <!-- sửa premission -->
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csystem") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csystem') ?>">
+                    <?php echo('Phân quyền') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csystem") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csystem') ?>">
+                    <?php echo('Phân quyền nhanh') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csystem") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csystem') ?>">
+                    <?php echo('Cấu hình hệ thống') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csystem") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csystem') ?>">
+                    <?php echo('Quy ước số') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csystem") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csystem') ?>">
+                    <?php echo('Nhập khẩu dược') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csystem") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csystem') ?>">
+                    <?php echo('Thiết lập tin nhắn') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csystem") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csystem') ?>">
+                    <?php echo('Nhập tồn dược') ?>
+                    </a></li>
+                    <?php } ?>
+
+                    <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview <?php if ($this->uri->segment('1') == ("Csystem") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <!-- sửa tên Controller tương ứng -->
+                    <a href="<?php echo base_url('Csystem') ?>">
+                    <?php echo('Cấu hình VNPay') ?>
+                    </a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+            <?php } ?>
+            <!-- Hệ thống - System menu end -->
 
             <!-- Customer menu start -->
             <?php
@@ -177,15 +2004,18 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
-                     <ul class="treeview-menu">
-                     <?php if($this->permission1->method('add_customer','create')->access()){ ?>
-                    <li class="treeview <?php
-            if ($this->uri->segment('1') == ("Ccustomer") && $this->uri->segment('2') == ("")) {
-                echo "active";
-            } else {
-                echo " ";
-            }
-            ?>"><a href="<?php echo base_url('Ccustomer') ?>"><?php echo display('add_customer') ?></a></li>
+            <ul class="treeview-menu">
+                <?php if($this->permission1->method('add_customer','create')->access()){ ?>
+                    <li class="treeview 
+                    <?php if ($this->uri->segment('1') == ("Ccustomer") && $this->uri->segment('2') == ("")) {
+                        echo "active";
+                    } else {
+                        echo " ";
+                    }
+                    ?>">
+                    <a href="<?php echo base_url('Ccustomer') ?>">
+                    <?php echo display('add_customer') ?>
+                    </a></li>
                 <?php } ?>
                 <?php if($this->permission1->method('manage_customer','read')->access()){ ?>
                     <li class="treeview <?php
@@ -237,7 +2067,7 @@
             <?php } ?>
             <!-- Customer menu end -->
 
-                   <!-- Product menu start -->
+            <!-- Product menu start -->
             <?php
             if($this->permission1->module('medicine_type')->access() || $this->permission1->module('add_medicine')->access() || $this->permission1->module('import_medicine_csv')->access() || $this->permission1->module('manage_medicine')->access() || $this->uri->segment('1') == ("Ccategory") || $this->permission1->module('add_category')->access()) { ?>
                 <li class="treeview <?php if ($this->uri->segment('1') == "Cproduct" || $this->uri->segment('1') == ("Ccategory")) { echo "active";}else{ echo " ";}?>">
@@ -1379,7 +3209,7 @@
                         echo "active";
                     } else {
                         echo " ";
-                    }?>"><a href="<?php echo base_url('Cgpp') ?>"><?php echo display('add_gpp_register') ?></a></li>
+                    }?>"><a href="<?php echo base_url('Cgpp1') ?>"><?php echo('Sổ theo dõi ADR') ?></a></li>
                 <?php } ?>
                  <?php if($this->permission1->method('manage_gpp_register','read')->access()){ ?>
                     <li class="treeview <?php  if ($this->uri->segment('2') == ("manage_gpp_register")){

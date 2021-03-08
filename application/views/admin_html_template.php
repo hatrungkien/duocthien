@@ -25,8 +25,8 @@
         <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="<?php echo base_url() ?>assets/dist/img/ico/apple-touch-icon-144-precomposed.png">
         <!-- Start Global Mandatory Style-->
 
-       <!-- jquery ui css -->
-        <link href="<?php echo base_url('assets/css/jquery-ui.min.css') ?>" rel="stylesheet" type="text/css"/>
+       <!-- css -->
+       <link href="<?php echo base_url(); ?>assets/css/style.css" rel="stylesheet" type="text/css"/> 
         <!-- Bootstrap --> 
         <link href="<?php echo base_url("assets/css/bootstrap.min.css"); ?>" rel="stylesheet" type="text/css"/>
         <?php if (!empty($Web_settings[0]['rtr']) && $Web_settings[0]['rtr'] == 1) {  ?>
@@ -44,7 +44,7 @@
         <link href="<?php echo base_url(); ?>assets/css/select2.min.css" rel="stylesheet" type="text/css"/> 
         <!-- DataTables CSS -->
         <link href="<?php echo base_url('assets/datatables/dataTables.min.css') ?>" rel="stylesheet" type="text/css"/> 
-          <!-- pe-icon-7-stroke -->
+        <!-- pe-icon-7-stroke -->
         <link href="<?php echo base_url('assets/css/pe-icon-7-stroke.css') ?>" rel="stylesheet" type="text/css"/> 
         <!-- themify icon css -->
         <link href="<?php echo base_url('assets/css/themify-icons.css') ?>" rel="stylesheet" type="text/css"/> 
@@ -67,8 +67,8 @@
             <link href="<?php echo base_url('assets/css/custom-rtl.css') ?>" rel="stylesheet" type="text/css"/>
         <?php } ?>
         <!-- jQuery -->
-       <script src="<?php echo base_url('assets/js/jquery-3.4.1.min.js?v=3.4.1') ?>" type="text/javascript"></script>
-       <script src="<?php echo base_url() ?>assets/js/wickedpicker.min.js" ></script>
+        <script src="<?php echo base_url('assets/js/jquery-3.4.1.min.js?v=3.4.1') ?>" type="text/javascript"></script>
+        <script src="<?php echo base_url() ?>assets/js/wickedpicker.min.js" ></script>
         <script src="<?php echo base_url() ?>assets/js/jquery.validate.min.js" type="text/javascript"></script>
     </head>
     <body class="hold-transition sidebar-mini">

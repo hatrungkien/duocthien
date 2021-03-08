@@ -125,6 +125,115 @@ class Invoices extends CI_Model {
 
          return $response; 
     }
+
+	// Đơn hàng theo đơn
+	public function getInvoiceList_1($postData=null){
+		$this->load->library('occational');
+		  $response = array();
+		  $fromdate = $this->input->post('fromdate',true);
+		  $todate   = $this->input->post('todate',true);
+		  if(!empty($fromdate)){
+			 $datbetween = "(a.date BETWEEN '$fromdate' AND '$todate')";
+		  }else{
+			 $datbetween = "";
+		  }
+		  ## Read value
+		  $draw = $postData['draw'];
+		  $start = $postData['start'];
+		  $rowperpage = $postData['length']; // Rows display per page
+		  $columnIndex = $postData['order'][0]['column']; // Column index
+		  $columnName = $postData['columns'][$columnIndex]['data']; // Column name
+		  $columnSortOrder = $postData['order'][0]['dir']; // asc or desc
+		  $searchValue = $postData['search']['value']; // Search value
+ 
+		  ## Search 
+		  $searchQuery = "";
+		  if($searchValue != ''){
+			 $searchQuery = " (b.customer_name like '%".$searchValue."%' or a.invoice like '%".$searchValue."%' or a.date like'%".$searchValue."%' or a.invoice_id like'%".$searchValue."%')";
+		  }
+ 
+		  ## Total number of records without filtering
+		  $this->db->select('count(*) as allcount');
+		  $this->db->from('invoice a');
+		  $this->db->join('customer_information b', 'b.customer_id = a.customer_id','left');
+		   if(!empty($fromdate) && !empty($todate)){
+			  $this->db->where($datbetween);
+		  }
+		   if($searchValue != '')
+		   $this->db->where($searchQuery);
+		   
+		  $records = $this->db->get()->result();
+		  $totalRecords = $records[0]->allcount;
+ 
+		  ## Total number of record with filtering
+		  $this->db->select('count(*) as allcount');
+		  $this->db->from('invoice a');
+		  $this->db->join('customer_information b', 'b.customer_id = a.customer_id','left');
+		  if(!empty($fromdate) && !empty($todate)){
+			  $this->db->where($datbetween);
+		  }
+		  if($searchValue != '')
+			 $this->db->where($searchQuery);
+		   
+		  $records = $this->db->get()->result();
+		  $totalRecordwithFilter = $records[0]->allcount;
+ 
+		  ## Fetch records
+		  $this->db->select("a.*,b.customer_name");
+		  $this->db->from('invoice a');
+		  $this->db->join('customer_information b', 'b.customer_id = a.customer_id','left');
+		   if(!empty($fromdate) && !empty($todate)){
+			  $this->db->where($datbetween);
+		  }
+		  if($searchValue != '')
+		  $this->db->where($searchQuery);
+		
+		  $this->db->order_by($columnName, $columnSortOrder);
+		  $this->db->limit($rowperpage, $start);
+		  $records = $this->db->get()->result();
+		  $data = array();
+		  $sl =1;
+   
+		  foreach($records as $record ){
+		   $button = '';
+		   $base_url = base_url();
+		   $jsaction = "return confirm('Are You Sure ?')";
+ 
+			$button .='  <a href="'.$base_url.'Cinvoice/invoice_inserted_data/'.$record->invoice_id.'" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="left" title="'.display('invoice').'"><i class="fa fa-window-restore" aria-hidden="true"></i></a>';
+ 
+	   
+ 
+		  $button .='  <a href="'.$base_url.'Cinvoice/pos_invoice_inserted_data/'.$record->invoice_id.'" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="left" title="'.display('pos_invoice').'"><i class="fa fa-fax" aria-hidden="true"></i></a>';
+ 
+	   if($this->permission1->method('manage_invoice','update')->access()){
+		  $button .=' <a href="'.$base_url.'Cinvoice/invoice_update_form/'.$record->invoice_id.'" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="left" title="'. display('update').'"><i class="fa fa-pencil" aria-hidden="true"></i></a>';
+	  }
+ 
+		
+				
+			 $data[] = array( 
+				 'sl'               =>$sl,
+				 'invoice'          =>$record->invoice,
+				 'customer_name'    =>$record->customer_name,
+				 'final_date'       =>$record->date,
+				 'total_amount'     =>$record->total_amount,
+				 'button'           =>$button,
+				 
+			 ); 
+			 $sl++;
+		  }
+ 
+		  ## Response
+		  $response = array(
+			 "draw" => intval($draw),
+			 "iTotalRecords" => $totalRecordwithFilter,
+			 "iTotalDisplayRecords" => $totalRecords,
+			 "aaData" => $data
+		  );
+ 
+		  return $response; 
+	 }
+
 	//invoice List
 	public function invoice_list($perpage,$page)
 	{

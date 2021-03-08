@@ -24,6 +24,24 @@ class Ccustomer extends CI_Controller {
         $this->template->full_admin_html_view($content);
     }
 
+    public function danh_sach_khach_hang() {
+        $content = $this->lcustomer->danh_sach_khach_hang();
+        //Here ,0 means array position 0 will be active class
+        $this->template->full_admin_html_view($content);
+    }
+
+    public function bac_si() {
+        $content = $this->lcustomer->bac_si();
+        //Here ,0 means array position 0 will be active class
+        $this->template->full_admin_html_view($content);
+    }
+
+    public function lich_hen() {
+        $content = $this->lcustomer->lich_hen();
+        //Here ,0 means array position 0 will be active class
+        $this->template->full_admin_html_view($content);
+    }
+
     //customer_search_item
     public function customer_search_item() {
         $customer_id = $this->input->post('customer_id',true);
@@ -55,7 +73,7 @@ class Ccustomer extends CI_Controller {
         $this->template->full_admin_html_view($content);
     }
 
-        public function CheckCustomerList(){
+    public function CheckCustomerList(){
         // GET data
         $this->load->model('Customers');
         $postData = $this->input->post();
@@ -74,7 +92,7 @@ class Ccustomer extends CI_Controller {
         ;
     }
 
-     public function CheckCreditCustomerList(){
+    public function CheckCreditCustomerList(){
         // GET data
         $this->load->model('Customers');
         $postData = $this->input->post();
@@ -93,7 +111,7 @@ class Ccustomer extends CI_Controller {
         
     }
     
-     public function CheckPaidCustomerList(){
+    public function CheckPaidCustomerList(){
         // GET data
         $this->load->model('Customers');
         $postData = $this->input->post();
@@ -102,7 +120,7 @@ class Ccustomer extends CI_Controller {
     } 
 
 
-      public function customer_ledger_report() {
+    public function customer_ledger_report() {
         $config["base_url"] = base_url('Ccustomer/customer_ledger_report/');
         $config["total_rows"] = $this->Customers->count_customer_ledger();
         $config["per_page"] = 10;
@@ -131,7 +149,7 @@ class Ccustomer extends CI_Controller {
         $this->template->full_admin_html_view($content);
     }
 
-       public function customer_ledgerData() {
+    public function customer_ledgerData() {
         $start       = $this->input->post('from_date',true);
         $end         = $this->input->post('to_date',true);
         $customer_id = $this->input->post('customer_id',true);
@@ -145,7 +163,7 @@ class Ccustomer extends CI_Controller {
         
         $vouchar_no = $this->auth->generator(10);
 
-         $data = array(
+        $data = array(
             'customer_name'   => $this->input->post('customer_name',TRUE),
             'customer_address'=> $this->input->post('address',TRUE),
             'address2'        => $this->input->post('address2',TRUE),
@@ -174,12 +192,12 @@ class Ccustomer extends CI_Controller {
            }else{
                 $headcode="102030000001";
             }
-    $c_acc=$this->input->post('customer_name',TRUE).'-'.$customer_id;
-   $createby=$this->session->userdata('user_id');
-  $createdate=date('Y-m-d H:i:s');
+        $c_acc=$this->input->post('customer_name',TRUE).'-'.$customer_id;
+        $createby=$this->session->userdata('user_id');
+        $createdate=date('Y-m-d H:i:s');
        
 
-    $customer_coa = [
+        $customer_coa = [
              'HeadCode'         => $headcode,
              'HeadName'         => $c_acc,
              'PHeadName'        => 'Customer Receivable',
@@ -196,19 +214,19 @@ class Ccustomer extends CI_Controller {
              'CreateDate'       => $createdate,
         ];
 
-            //Previous balance adding -> Sending to customer model to adjust the data.
-            $this->db->insert('acc_coa',$customer_coa);
-            $this->Customers->previous_balance_add($this->input->post('previous_balance',TRUE), $customer_id);
+        //Previous balance adding -> Sending to customer model to adjust the data.
+        $this->db->insert('acc_coa',$customer_coa);
+        $this->Customers->previous_balance_add($this->input->post('previous_balance',TRUE), $customer_id);
           
 
-            $this->session->set_userdata(array('message' => display('successfully_added')));
-            if (isset($_POST['add-customer'])) {
-                redirect(base_url('Ccustomer/manage_customer'));
-                exit;
-            } elseif (isset($_POST['add-customer-another'])) {
-                redirect(base_url('Ccustomer'));
-                exit;
-            }
+        $this->session->set_userdata(array('message' => display('successfully_added')));
+        if (isset($_POST['add-customer'])) {
+            redirect(base_url('Ccustomer/manage_customer'));
+            exit;
+        } elseif (isset($_POST['add-customer-another'])) {
+            redirect(base_url('Ccustomer'));
+            exit;
+        }
        
     }
     // =================== customer Csv Upload ===============================
@@ -224,105 +242,103 @@ class Ccustomer extends CI_Controller {
 
         if (($handle = fopen($_FILES['upload_csv_file']['tmp_name'], 'r')) !== FALSE)
         {
-  
-         while($csv_line = fgetcsv($fp,1024)){
-                //keep this if condition if you want to remove the first row
-                for($i = 0, $j = count($csv_line); $i < $j; $i++)
-                {                  
-                   $insert_csv = array();
-           $insert_csv['customer_name']   = (!empty($csv_line[0])?$csv_line[0]:null);
-           $insert_csv['customer_email']  = (!empty($csv_line[1])?$csv_line[1]:'');
-           $insert_csv['emailaddress']    = (!empty($csv_line[2])?$csv_line[2]:'');
-           $insert_csv['customer_mobile'] = (!empty($csv_line[3])?$csv_line[3]:'');
-           $insert_csv['phone']           = (!empty($csv_line[4])?$csv_line[4]:'');
-           $insert_csv['fax']             = (!empty($csv_line[5])?$csv_line[5]:'');
-           $insert_csv['contact']         = (!empty($csv_line[6])?$csv_line[6]:'');
-           $insert_csv['city']            = (!empty($csv_line[7])?$csv_line[7]:'');
-           $insert_csv['state']           = (!empty($csv_line[8])?$csv_line[8]:'');
-           $insert_csv['zip']             = (!empty($csv_line[9])?$csv_line[9]:'');
-           $insert_csv['country']         = (!empty($csv_line[10])?$csv_line[10]:'');
-           $insert_csv['customer_address']= (!empty($csv_line[11])?$csv_line[11]:'');
-           $insert_csv['address2']         = (!empty($csv_line[12])?$csv_line[12]:'');
-           $insert_csv['previousbalance'] = (!empty($csv_line[13])?$csv_line[13]:0);
-           $insert_csv['district']            = (!empty($csv_line[7])?$csv_line[14]:'');
-        }
+        while($csv_line = fgetcsv($fp,1024)){
+            //keep this if condition if you want to remove the first row
+            for($i = 0, $j = count($csv_line); $i < $j; $i++)
+            {                  
+                $insert_csv = array();
+                $insert_csv['customer_name']   = (!empty($csv_line[0])?$csv_line[0]:null);
+                $insert_csv['customer_email']  = (!empty($csv_line[1])?$csv_line[1]:'');
+                $insert_csv['emailaddress']    = (!empty($csv_line[2])?$csv_line[2]:'');
+                $insert_csv['customer_mobile'] = (!empty($csv_line[3])?$csv_line[3]:'');
+                $insert_csv['phone']           = (!empty($csv_line[4])?$csv_line[4]:'');
+                $insert_csv['fax']             = (!empty($csv_line[5])?$csv_line[5]:'');
+                $insert_csv['contact']         = (!empty($csv_line[6])?$csv_line[6]:'');
+                $insert_csv['city']            = (!empty($csv_line[7])?$csv_line[7]:'');
+                $insert_csv['state']           = (!empty($csv_line[8])?$csv_line[8]:'');
+                $insert_csv['zip']             = (!empty($csv_line[9])?$csv_line[9]:'');
+                $insert_csv['country']         = (!empty($csv_line[10])?$csv_line[10]:'');
+                $insert_csv['customer_address']= (!empty($csv_line[11])?$csv_line[11]:'');
+                $insert_csv['address2']         = (!empty($csv_line[12])?$csv_line[12]:'');
+                $insert_csv['previousbalance'] = (!empty($csv_line[13])?$csv_line[13]:0);
+                $insert_csv['district']            = (!empty($csv_line[7])?$csv_line[14]:'');
+            }
           
                  
 
         //Customer  basic information adding.
                  
-                $customerdata = array(
-                   'customer_name'    => $insert_csv['customer_name'],
-                    'customer_address'=> $insert_csv['customer_address'],
-                    'address2'        => $insert_csv['address2'],
-                    'customer_mobile' => $insert_csv['customer_mobile'],
-                    'phone'           => $insert_csv['phone'],
-                    'fax'             => $insert_csv['fax'],
-                    'contact'         => $insert_csv['contact'],
-                    'city'            => $insert_csv['city'],
-                    'state'           => $insert_csv['state'],
-                    'zip'             => $insert_csv['zip'],
-                    'country'         => $insert_csv['country'],
-                    'email_address'   => $insert_csv['emailaddress'],
-                    'customer_email'  => $insert_csv['customer_email'],
-                    'status'           => 1,
-                    'create_by'        => $this->session->userdata('user_id'),
+            $customerdata = array(
+            'customer_name'    => $insert_csv['customer_name'],
+            'customer_address'=> $insert_csv['customer_address'],
+            'address2'        => $insert_csv['address2'],
+            'customer_mobile' => $insert_csv['customer_mobile'],
+            'phone'           => $insert_csv['phone'],
+            'fax'             => $insert_csv['fax'],
+            'contact'         => $insert_csv['contact'],
+            'city'            => $insert_csv['city'],
+            'state'           => $insert_csv['state'],
+            'zip'             => $insert_csv['zip'],
+            'country'         => $insert_csv['country'],
+            'email_address'   => $insert_csv['emailaddress'],
+            'customer_email'  => $insert_csv['customer_email'],
+            'status'           => 1,
+            'create_by'        => $this->session->userdata('user_id'),
 
-                );
+            );
                    
-                if ($count > 0) {
-                    $this->db->insert('customer_information',$customerdata);
-                    $customer_id = $this->db->insert_id();
-                    $coa = $this->Customers->headcode();
-                       if($coa->HeadCode!=NULL){
-                            $headcode=$coa->HeadCode+1;
-                       }else{
-                            $headcode="102030001";
-                        }
+            if ($count > 0) {
+                $this->db->insert('customer_information',$customerdata);
+                $customer_id = $this->db->insert_id();
+                $coa = $this->Customers->headcode();
+                    if($coa->HeadCode!=NULL){
+                        $headcode=$coa->HeadCode+1;
+                    }else{
+                        $headcode="102030001";
+                    }
                 $c_acc=$insert_csv['customer_name'].'-'.$customer_id;
-              $createby=$this->session->userdata('user_id');
-              $createdate=date('Y-m-d H:i:s');
+                $createby=$this->session->userdata('user_id');
+                $createdate=date('Y-m-d H:i:s');
                 $transaction_id=$this->auth->generator(10);
 
                
-                    $customer_coa = [
-                 'HeadCode'         => $headcode,
-                 'HeadName'         => $c_acc,
-                 'PHeadName'        => 'Customer Receivable',
-                 'HeadLevel'        => '4',
-                 'IsActive'         => '1',
-                 'IsTransaction'    => '1',
-                 'IsGL'             => '0',
-                 'HeadType'         => 'A',
-                 'IsBudget'         => '0',
-                 'IsDepreciation'   => '0',
-                 'customer_id'      => $customer_id,
-                 'DepreciationRate' => '0',
-                 'CreateBy'         => $createby,
-                 'CreateDate'       => $createdate,
-            ];
+                $customer_coa = [
+                'HeadCode'         => $headcode,
+                'HeadName'         => $c_acc,
+                'PHeadName'        => 'Customer Receivable',
+                'HeadLevel'        => '4',
+                'IsActive'         => '1',
+                'IsTransaction'    => '1',
+                'IsGL'             => '0',
+                'HeadType'         => 'A',
+                'IsBudget'         => '0',
+                'IsDepreciation'   => '0',
+                'customer_id'      => $customer_id,
+                'DepreciationRate' => '0',
+                'CreateBy'         => $createby,
+                'CreateDate'       => $createdate,
+                ];
             // Customer debit for previous balance
-              $cosdr = array(
-              'VNo'            =>  $transaction_id,
-              'Vtype'          =>  'PR Balance',
-              'VDate'          =>  date("Y-m-d"),
-              'COAID'          =>  $headcode,
-              'Narration'      =>  'Customer debit For Transaction No'.$transaction_id,
-              'Debit'          =>  $insert_csv['previousbalance'],
-              'Credit'         =>  0,
-              'IsPosted'       => 1,
-              'CreateBy'       => $this->session->userdata('user_id'),
-              'CreateDate'     => date('Y-m-d H:i:s'),
-              'IsAppove'       => 1
-            );
+                $cosdr = array(
+                'VNo'            =>  $transaction_id,
+                'Vtype'          =>  'PR Balance',
+                'VDate'          =>  date("Y-m-d"),
+                'COAID'          =>  $headcode,
+                'Narration'      =>  'Customer debit For Transaction No'.$transaction_id,
+                'Debit'          =>  $insert_csv['previousbalance'],
+                'Credit'         =>  0,
+                'IsPosted'       => 1,
+                'CreateBy'       => $this->session->userdata('user_id'),
+                'CreateDate'     => date('Y-m-d H:i:s'),
+                'IsAppove'       => 1
+                );
                            
-                     $this->db->insert('acc_coa',$customer_coa);
-                     if($insert_csv['previousbalance'] > 0){
-                     $this->db->insert('acc_transaction',$cosdr);
-                   }
-                     
-                    }  
-                $count++; 
+                $this->db->insert('acc_coa',$customer_coa);
+                if($insert_csv['previousbalance'] > 0){
+                    $this->db->insert('acc_transaction',$cosdr);
+                }                     
+            }  
+            $count++; 
             }
             
         }

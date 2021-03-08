@@ -853,7 +853,7 @@ function Checkprice()
   }
 }
 
- 
+ //Đơn hàng theo đơn
 
 $(document).ready(function() { 
       "use strict";
@@ -861,7 +861,7 @@ $(document).ready(function() {
    var base_url = $('#base_url').val();
    var total_invoice = $("#total_invoice").val();
    var currency = $("#currency").val();
-   var invoicedatatable = $('#InvList').DataTable({ 
+   var invoicedatatable = $('#InvList_1').DataTable({ 
              responsive: true,
 
              "aaSorting": [[ 1, "desc" ]],
@@ -905,7 +905,7 @@ $(document).ready(function() {
             
             'serverMethod': 'post',
             'ajax': {
-               'url': base_url + 'Cinvoice/CheckInvoiceList',
+               'url': base_url + 'Cinvoice/CheckInvoiceList_1',
                  "data": function ( data) {
          data.fromdate = $('#from_date').val();
          data.todate = $('#to_date').val();
@@ -917,6 +917,16 @@ $(document).ready(function() {
              { data: 'invoice' },
              { data: 'customer_name'},
              { data: 'final_date' },
+             { data: 'final_date' },
+             { data: 'final_date' },
+             { data: 'final_date' },
+             { data: 'final_date' ,class:"total_sale text-right",render: $.fn.dataTable.render.number( ',', '.', 2, currency )},
+             { data: 'final_date' ,class:"total_sale text-right",render: $.fn.dataTable.render.number( ',', '.', 2, currency )},
+             { data: 'final_date' ,class:"total_sale text-right",render: $.fn.dataTable.render.number( ',', '.', 2, currency )},
+             { data: 'final_date' ,class:"total_sale text-right",render: $.fn.dataTable.render.number( ',', '.', 2, currency )},
+             { data: 'final_date' },
+             { data: 'final_date' },
+             
              { data: 'total_amount',class:"total_sale text-right",render: $.fn.dataTable.render.number( ',', '.', 2, currency )},
              { data: 'button'},
           ],
@@ -948,7 +958,105 @@ invoicedatatable.ajax.reload();
 });
 
 
-  
+$(document).ready(function() { 
+  "use strict";
+var csrf_test_name = $('[name="csrf_test_name"]').val();
+var base_url = $('#base_url').val();
+var total_invoice = $("#total_invoice").val();
+var currency = $("#currency").val();
+var invoicedatatable = $('#InvList').DataTable({ 
+         responsive: true,
+
+         "aaSorting": [[ 1, "desc" ]],
+         "columnDefs": [
+            { "bSortable": false, "aTargets": [0,2,3,4,5] },
+
+        ],
+       'processing': true,
+       'serverSide': true,
+
+      
+       'lengthMenu':[[10, 25, 50,100,250,500, total_invoice], [10, 25, 50,100,250,500, "All"]],
+
+         dom:"'<'col-sm-4'l><'col-sm-4 text-center'><'col-sm-4'>Bfrtip", buttons:[ {
+            extend: "copy",exportOptions: {
+                   columns: [ 0, 1, 2, 3,4 ] //Your Colume value those you want
+                       }, className: "btn-sm prints"
+        }
+        , {
+            extend: "csv", title: "InvoiceList",exportOptions: {
+                   columns: [ 0, 1, 2, 3,4] //Your Colume value those you want print
+                       }, className: "btn-sm prints"
+        }
+        , {
+            extend: "excel",exportOptions: {
+                   columns: [ 0, 1, 2, 3,4] //Your Colume value those you want print
+                       }, title: "InvoiceList", className: "btn-sm prints"
+        }
+        , {
+            extend: "pdf",exportOptions: {
+                   columns: [ 0, 1, 2, 3,4 ] //Your Colume value those you want print
+                       }, title: "Invoice List", className: "btn-sm prints"
+        }
+        , {
+            extend: "print",exportOptions: {
+                   columns: [ 0, 1, 2, 3,4 ] //Your Colume value those you want print
+                       }, title: "<center> Invoice List</center>", className: "btn-sm prints"
+        }
+        ],
+
+        
+        'serverMethod': 'post',
+        'ajax': {
+           'url': base_url + 'Cinvoice/CheckInvoiceList',
+             "data": function ( data) {
+     data.fromdate = $('#from_date').val();
+     data.todate = $('#to_date').val();
+    data.csrf_test_name = csrf_test_name;
+}
+        },
+      'columns': [
+         { data: 'sl' },
+         { data: 'invoice' },
+         { data: 'customer_name'},
+         { data: 'final_date' },
+         { data: 'final_date' },
+         { data: 'final_date' },
+         { data: 'final_date' ,class:"total_sale text-right",render: $.fn.dataTable.render.number( ',', '.', 2, currency )},
+         { data: 'final_date' ,class:"total_sale text-right",render: $.fn.dataTable.render.number( ',', '.', 2, currency )},
+         { data: 'final_date' ,class:"total_sale text-right",render: $.fn.dataTable.render.number( ',', '.', 2, currency )},
+         { data: 'final_date' ,class:"total_sale text-right",render: $.fn.dataTable.render.number( ',', '.', 2, currency )},
+         { data: 'final_date' },
+         
+         { data: 'total_amount',class:"total_sale text-right",render: $.fn.dataTable.render.number( ',', '.', 2, currency )},
+         { data: 'button'},
+      ],
+
+"footerCallback": function(row, data, start, end, display) {
+var api = this.api();
+api.columns('.total_sale', {
+page: 'current'
+}).every(function() {
+var sum = this
+  .data()
+  .reduce(function(a, b) {
+    var x = parseFloat(a) || 0;
+    var y = parseFloat(b) || 0;
+    return x + y;
+  }, 0);
+$(this.footer()).html(currency+' '+sum.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+});
+}
+
+
+});
+
+
+$('#btn-filter').click(function(){ 
+invoicedatatable.ajax.reload();  
+});
+
+});  
    
 
    /*CALCULATOR PART*/

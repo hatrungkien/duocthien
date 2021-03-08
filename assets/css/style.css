@@ -1047,3 +1047,6 @@ font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif !importan
         transform: rotate(-130deg);
     }
 }
+.form-title{
+  background-color: #1C93C7;
+}
